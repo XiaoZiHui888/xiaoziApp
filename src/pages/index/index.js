@@ -9,147 +9,224 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     SectionList,
-    FlatList
+    FlatList,
+    ImageBackground
 } from 'react-native';
 import { sw } from '../../utils/screenAdapter';
 import { Actions } from 'react-native-router-flux';
-import Banner from '../../components/banner'
-import IconList from '../../components/iconList';
-import ClassifyList from './classifyList'
 
+// 顶部菜单
+const menuList = () => {
+    let list = [
+        { title: '分享赚钱', icon: require('../../assets/home_icon1.png') },
+        { title: 'VIP', icon: require('../../assets/home_icon2.png') },
+        { title: '代理', icon: require('../../assets/home_icon3.png') },
+        { title: '招商', icon: require('../../assets/home_icon4.png') },
+        { title: '视频', icon: require('../../assets/home_icon5.png') },
+        { title: '直播', icon: require('../../assets/home_icon6.png') },
+        { title: '新手', icon: require('../../assets/home_icon7.png') },
+        { title: '公告', icon: require('../../assets/home_icon8.png') }
+    ]
+    return (
+        <ImageBackground source={require('../../assets/header_bg.png')} style={styles.menuList}>
+                {list.map(item => {
+                    return (
+                        <TouchableOpacity style={styles.menu}>
+                            <Image style={styles.menuIcon} source={item.icon}></Image>
+                            <Text style={styles.menuTilte}>{item.title}</Text>
+                        </TouchableOpacity>
+                    )
+                })}
+            </ImageBackground>
+      
+    )
+}
+// 卡片列表
+const cardList = (list = [],self) => {
+
+    return (<View style={styles.cardList}>
+
+        {list.length==0?(<ImageBackground style={styles.card} source={require("../../assets/home_card_bg.png")}>
+                
+                <View style={styles.cardTop}>
+                    <Image style={styles.cardBandIcon} source={require("../../assets/bank_nongye.png")}></Image>
+                    <Text style={styles.cardBankName}>农业银行信用卡 [8888]</Text>
+                </View>
+                <Image style={styles.demoIcon} source={require("../../assets/home_demo.png")}></Image>
+                <View style={styles.cardWithDraw} >
+                    <Text style={styles.cardWithDrawTitle}>取备用金</Text>
+                </View>
+                <View style={styles.repay}>
+                    <Text style={styles.repayText}>智能还款</Text>
+                </View>
+            </ImageBackground>):<></>}
+
+        {list.map(item => {
+            return (
+                <ImageBackground style={styles.card} source={require("../../assets/home_card_bg.png")}>
+                    <View style={styles.cardTop}>
+                        <Image style={styles.cardBandIcon} source={require("../../assets/bank_nongye.png")}></Image>
+                        <Text style={styles.cardBankName}>农业银行信用卡 [8888]</Text>
+                    </View>
+                    <TouchableOpacity style={styles.cardWithDraw} onPress={self.onPushToWidhDraw}>
+                        <Text style={styles.cardWithDrawTitle}>取备用金</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.repay} onPress={self.onPushToRepay}>
+                        <Text style={styles.repayText}>智能还款</Text>
+                    </TouchableOpacity>
+                </ImageBackground>
+             
+            )
+        })}
+    </View>)
+}
 
 
 export default class Home extends Component {
+    state = {
+        list:[1,2]
+    }
     render() {
         return (
             <ScrollView contentContainerStyle={styles.page}>
-                {/* 搜索 */}
-                <TouchableOpacity style={styles.searchBar} onPress={this.onPushToSearch}>
-                    <Image style={styles.searchBarIcon} source={require('../../assets/search.png')}></Image>
-                    <Text style={styles.searchBarTitle}>输入你想分享的商品关键字</Text>
+                {/* 顶部导航 */}
+                {menuList()}
+                <Image source={require("../../assets/card_bg.png")} style={styles.cardBg}></Image>
+                {/* 银行卡列表 */}
+                {cardList(this.state.list,this)}
+                {/* 添加按钮 */}
+                <TouchableOpacity style={styles.addCardBtn}>
+                    <Text style={styles.addCardBtnTitle}>+添加一张银行卡</Text>
                 </TouchableOpacity>
-                {/* banner */}
-                <View style={styles.banner}><Banner /></View>
-                {/* 展位图 */}
-                <View style={styles.placeholder}>
-                    <Image style={styles.placeholderImage} source={require('../../assets/home_zhengpinbaozhang.png')}></Image>
-                </View>
-                {/* 菜单 */}
-                <View style={styles.iconList}>
-                    <IconList />
-                </View>
-                {/* 图片组图 */}
-                <View style={styles.imageGroup}>
-                    <TouchableOpacity>
-                        <Image style={styles.imageGroupRightImage} source={{ uri: 'https://kshop-pro-data.oss-cn-hangzhou.aliyuncs.com/kmh/selfshop/prefecture_img1.png' }}></Image>
-                    </TouchableOpacity>
-                    <View style={styles.imageGroupRight}>
-                        <TouchableOpacity>
-                            <Image style={styles.imageGroupTopImage} source={{ uri: 'https://kshop-pro-data.oss-cn-hangzhou.aliyuncs.com/kmh/selfshop/prefecture_img2.png' }}></Image>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Image style={styles.imageGroupBottomImage} source={{ uri: 'https://kshop-pro-data.oss-cn-hangzhou.aliyuncs.com/kmh/selfshop/prefecture_img3.png' }}></Image>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                {/* 分类 */}
-                <View style={styles.classifyList}>
-                    <ClassifyList />
-                </View>
-
             </ScrollView >
-
-
         );
     }
-    onPushToSearch() {
-        Actions.push('search')
+    onPushToWidhDraw(){
+      Actions.push('withdraw')
+    }
+    onPushToRepay(){
+      Actions.push('repay')
     }
 }
 
 const styles = StyleSheet.create({
     page: {
-        backgroundColor: '#F8F8F8',
+        backgroundColor: '#fff',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        minHeight:'100%'
 
     },
-    searchBar: {
-        marginTop: 7.5,
-        width: sw(355),
-        height: sw(40),
-        backgroundColor: '#F6f6f6',
-        borderRadius: sw(20),
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    searchBarIcon: {
-        width: sw(18),
-        height: sw(18),
-        marginLeft: sw(16),
-    },
-    searchBarTitle: {
-        marginLeft: 8.5,
-        color: '#A3A3A3',
-        fontSize: 14,
-
-    },
-    banner: {
-        marginTop: sw(7.5),
-        width: sw(355),
-        height: sw(180),
-        borderRadius: 10,
-        overflow: 'hidden'
-    },
-    placeholder: {
-        width: '100%',
-        display: 'flex',
-        marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    placeholderImage: {
-        width: sw(236),
-        height: sw(13)
-    },
-    iconList: {
-        marginTop: 18,
-    },
-    imageGroup: {
-        marginTop: 30,
-        marginRight: sw(10),
-        marginLeft: sw(10),
-        display: 'flex',
+    menuList: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        flexWrap: 'wrap',
+        height:sw(160)
     },
-    imageGroupRightImage: {
-        width: sw(171),
-        height: sw(151),
+    menu: {
+        marginTop: sw(30),
+        width: sw(93.75),
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    imageGroupRight: {
-        width: sw(179),
-        display: 'flex',
-        justifyContent: 'space-between',
-        height: sw(151),
-        marginLeft: sw(5)
+    menuIcon: {
+        width: sw(21),
+        height: sw(21)
+    },
+    menuTilte: {
+        marginTop: sw(17),
+        fontSize: sw(12),
+        color: '#333333'
+    },
+    cardBg: {
+        width: '100%',
+        height: sw(39)
+    },
+    cardList:{
+     marginTop:0
+    },
+    card:{
+        marginBottom:sw(10),
+        width:sw(345),
+        height:sw(125),
+        backgroundColor:'white'
+    },
+    cardTop:{
+        marginTop:sw(15),
+      display:'flex',
+      alignItems:'center',
+      flexDirection:'row'
+    },
+    cardBandIcon:{
+      marginLeft:sw(20),
+      width:sw(36),
+      height:sw(36),
+      borderRadius:sw(18)
+    },
+    cardBankName:{
+        marginLeft:sw(5),
+     fontSize:sw(15),
+     color:'#FFEBB7',
+     fontWeight:'500'
+    },
+    demoIcon:{
+     position:'absolute',
+     right:sw(37),
+     top:sw(5),
+     width:sw(40),
+     height:sw(40)
+    },
+    cardWithDraw:{
+       position: 'absolute',
+       left:sw(20),
+       bottom:sw(15),
+       width:sw(68),
+       height:sw(25),
+       borderRadius:sw(12.5),
+       borderColor:'#FFE195',
+       borderStyle:'solid',
+       borderWidth:1,
+       alignItems:'center',
+       justifyContent:'center'
 
     },
-    imageGroupTopImage: {
-        width: sw(179),
-        height: sw(73),
-        backgroundColor: '#F7F7F7'
+    cardWithDrawTitle:{
+      color:'#FFE195',
+      fontSize:sw(12)
     },
-    imageGroupBottomImage: {
-        width: sw(179),
-        height: sw(73),
+    repay:{
+        position: 'absolute',
+        left:sw(96),
+        bottom:sw(15),
+        width:sw(68),
+        height:sw(25),
+        borderRadius:sw(12.5),
+        borderColor:'#FFFFFF',
+        borderStyle:'solid',
+        borderWidth:1,
+        alignItems:'center',
+        justifyContent:'center'
     },
-    classifyList: {
-        marginTop: sw(21.5),
-        backgroundColor: 'white'
+    repayText:{
+        color:'#FFFFFF',
+        fontSize:sw(12)
+    },
+    addCardBtn:{
+     marginTop:sw(10),
+     width:sw(345),
+     height:sw(50),
+     backgroundColor:'#FFCB00',
+     alignItems:'center',
+     justifyContent:'center',
+     marginBottom:sw(20),
+     borderRadius:8
+    },
+    addCardBtnTitle:{
+     fontWeight:'bold',
+     color:'#FFFFFF',
+     fontSize:sw(15),
+     
     }
 
 });

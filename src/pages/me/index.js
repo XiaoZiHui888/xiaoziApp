@@ -6,15 +6,17 @@ import {
   View,
   Text,
   StatusBar,
-  Image
+  Image,
+  ImageBackground
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { sw } from '../../utils/screenAdapter';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const header = () => {
   return (
-    <View style={styles.header}>
+    <ImageBackground style={styles.header} source={require("../../assets/me_head_bg.png")}>
       <View style={styles.userInfo}>
         <Image style={styles.userInfoImage}></Image>
         <View style={styles.userInfoRight}>
@@ -22,27 +24,55 @@ const header = () => {
             <Text style={styles.userInfoName}>用户姓名</Text>
             <Image style={styles.userInfoRank}></Image>
           </View>
-          <Text style={styles.userInfoDate}>2019-12-12</Text>
         </View>
       </View>
+    </ImageBackground>
+  )
+}
+const upgrade = () => {
+  return (
+    <View style={styles.upgrade}>
+      <Image style={styles.upgradeIcon} source={require('../../assets/vip_up.png')}></Image>
+      <View style={styles.upgradeMid}>
+      <Text style={styles.upgradeTitle1}>升级VIP会员 享特权</Text>
+      <Text style={styles.upgradeTitle2}>信用卡取备用金/智能还款率全国最低</Text>
+      </View>
+      <TouchableOpacity style={styles.upgradeBtn}>
+        <Text style={styles.upgradeBtnTitle}>去看看</Text>
+      </TouchableOpacity>
     </View>
   )
 }
 const income = () => {
   return (
-    <View style={styles.cell}>
-      <Text style={styles.cellTitle1}>累计总收入</Text>
-      <Text style={styles.cellTitle2}>¥543.45</Text>
+    <View style={styles.income}>
+      <TouchableOpacity style={styles.incomeItem}>
+        <View style={styles.icomeItemRight}>
+          <Text style={styles.incomeItemTitle1}>分享赚钱</Text>
+          <Text style={styles.incomeItemTitle2}>他刷卡你赚钱</Text>
+        </View>
+        <Image style={styles.incomeItemImg} source={require("../../assets/me_share_img.png")}></Image>
+      </TouchableOpacity>
+      <View style={styles.incomeLine}></View>
+
+      <TouchableOpacity style={styles.incomeItem}>
+        <View style={styles.icomeItemRight}>
+          <Text style={styles.incomeItemTitle1}>分享赚钱</Text>
+          <Text style={styles.incomeItemTitle2}>他刷卡你赚钱</Text>
+        </View>
+        <Image style={styles.incomeItemImg} source={require("../../assets/me_balance_img.png")}></Image>
+      </TouchableOpacity>
     </View>
   )
 }
 
 const cell = (name) => {
   return (
-    <View style={styles.cell}>
+    <TouchableOpacity style={styles.cell}>
       <Text style={styles.cellTitle3}>{name}</Text>
       <Image style={styles.cellImage} source={require("../../assets/arrow_right.png")} />
-    </View>
+      <View style={styles.cellLine}></View>
+    </TouchableOpacity>
   )
 }
 
@@ -52,11 +82,14 @@ export default class Me extends Component {
     return (
       <ScrollView contentContainerStyle={styles.page}>
         {header()}
+        {upgrade()}
         {income()}
-        {cell('我的钱包')}
-        {cell('我的销售单')}
-        {cell('我的订单')}
-        {cell('使用帮助')}
+        <View style={styles.cellList}> 
+        {cell('我的银行卡')}
+        {cell('常见问题')}
+        {cell('设置')}
+        </View>
+
       </ScrollView>
     );
   }
@@ -68,11 +101,10 @@ let styles = StyleSheet.create({
   },
   header: {
     width: sw(375),
-    height: sw(159),
-    backgroundColor: '#D80B2A'
+    height: sw(148),
   },
   userInfo: {
-    marginTop: sw(84),
+    marginTop: sw(66),
     width: sw(375),
     display: "flex",
     alignItems: "center",
@@ -95,7 +127,7 @@ let styles = StyleSheet.create({
   userInfoName: {
     fontSize: sw(17),
     fontWeight: 'bold',
-    color: 'white',
+    color: '#1C1D21',
     marginLeft: 2
   },
   userInfoRank: {
@@ -108,7 +140,6 @@ let styles = StyleSheet.create({
     color: 'white'
   },
   cell: {
-    marginTop: 8,
     width: sw(343),
     height: sw(50),
     display: 'flex',
@@ -137,6 +168,103 @@ let styles = StyleSheet.create({
     width: sw(13),
     height: sw(13),
     marginRight: sw(14)
+  },
+  cellLine:{
+   position: 'absolute',
+   bottom:0,
+   left:sw(15),
+   right:sw(15),
+   height:1,
+   backgroundColor:'#E8E8E8'
+  },
+
+  upgrade:{
+    marginTop:sw(-10),
+   width:sw(345),
+   height:sw(70),
+   flexDirection:'row',
+   alignItems:'center',
+   backgroundColor:'#fff',
+   borderRadius:8
+  },
+  upgradeIcon:{
+    width:sw(36),
+    height:sw(32),
+    marginLeft:sw(10)
+  },
+  upgradeMid:{
+    marginLeft:sw(8),
+    flex:1
+  },
+  upgradeTitle1:{
+    color:'#404040',
+    fontSize:sw(16),
+    fontWeight:'bold'
+  },
+  upgradeTitle2:{
+    color:'#999999',
+    fontSize:sw(12)
+  },
+  upgradeBtn:{
+    width:sw(60),
+    height:sw(27),
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    marginRight:sw(10),
+    borderRadius:sw(14),
+    borderColor:'#DBAE64',
+    borderWidth:1
+  },
+  upgradeBtnTitle:{
+    color:'#DBAE64',
+    fontSize:sw(12)
+  },
+  income:{
+    marginTop:sw(10),
+    borderRadius:sw(8),
+     width:sw(345),
+     height:sw(70),
+     display:'flex',
+     alignItems:'center',
+     backgroundColor:'#fff',
+     flexDirection:'row',
+     justifyContent:'space-around'
+  },
+  incomeItem:{
+ 
+   flexDirection:'row',
+   alignItems:'center',
+   flex:1
+  },
+  incomeItemImg:{
+    marginLeft:sw(13),
+   width:sw(50),
+   height:sw(50)
+  },
+  incomeLine:{
+    height:sw(38),
+    width:1,
+    backgroundColor:'#E8E8E8'
+  },
+  incomeItemTitle1:{
+    color:'#404040',
+    fontSize:sw(16),
+    fontWeight:'bold'
+  },
+
+  incomeItemTitle2:{
+    color:'#999999',
+    fontSize:sw(12)
+  },
+  icomeItemRight:{
+    marginLeft:sw(15)
+  },
+  cellList:{
+    marginTop:sw(10),
+    backgroundColor:'#fff',
+    borderRadius:8
+
   }
 
 })

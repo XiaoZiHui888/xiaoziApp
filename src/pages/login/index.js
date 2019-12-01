@@ -30,12 +30,12 @@ export default class Login extends Component {
             <View style={styles.page}>
                 {/* 手机号码 */}
                 <View style={styles.cell}>
-                    <Image style={styles.cellIcon} source={require("../../assets/phone.png")}></Image>
+                    <Image style={styles.cellIcon} source={require("../../assets/login_phone.png")}></Image>
                     <TextInput ref="inputPhone" style={styles.cellTitle} placeholder="请输入手机号码" maxLength={11} onChangeText={this.onInputPhone.bind(this)} textContentType="telephoneNumber" keyboardType="phone-pad" clearButtonMode={true} onFocus={this.onResetError.bind(this)}/>
                 </View>
                 {/* 验证码 */}
                 <View style={styles.cell}>
-                    <Image style={styles.cellIcon} source={require("../../assets/phone.png")}></Image>
+                    <Image style={styles.cellIcon} source={require("../../assets/login_code.png")}></Image>
                     <TextInput ref="inputCode" style={styles.cellTitle} placeholder="请输入验证码"  maxLength={6} onChangeText={this.onInputCode.bind(this)} keyboardType="phone-pad" onFocus={this.onResetError.bind(this)}/>
                     <TouchableOpacity style={!this.state.timer?styles.cellBtn:styles.cellBtnDisabled} onPress={this.onCountDown.bind(this)} disabled={!!this.state.timer}>
         <Text style={styles.cellBtnTitle}>{!this.state.timer?'获取验证码':this.state.duration + 's后重试'}</Text>
@@ -132,8 +132,8 @@ const styles = StyleSheet.create({
     },
     cellIcon:{
        marginLeft:sw(20),
-       width:sw(30),
-       height:sw(30)
+       width:sw(20),
+       height:sw(20)
     },
     cellTitle:{
         marginLeft:sw(20),

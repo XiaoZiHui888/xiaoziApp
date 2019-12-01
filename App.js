@@ -17,7 +17,7 @@ import AboutMe from './src/pages/aboutMe/index';
 import Agreement from './src/pages/agreement/index';
 import { View, Image } from 'react-native';
 
-const TabIconth = ({ focused, title }) => {
+const TabIconth = ({ focused, title}) => {
   let list = {
     '首页': {
       icon: require('./src/assets/home.png'),
@@ -32,12 +32,12 @@ const TabIconth = ({ focused, title }) => {
   if (!focused) {
     return (
 
-      <Image style={{ width: 20, height: 20 }} source={item.icon} />
+      <Image style={{ width: 20, height: 20,resizeMode:'contain' }} source={item.icon} />
 
     );
   } else {
     return (
-      <Image style={{ width: 20, height: 20 }} source={item.activeIcon} />
+      <Image style={{ width: 20, height: 20,resizeMode:'contain'}} source={item.activeIcon} />
 
     );
 
@@ -49,21 +49,18 @@ const App = () => {
     <Router>
       <Modal key="root" hideNavBar>
       <Scene>
-      <Scene key="login" component={Login} title="登录" navBarButtonColor="black" hideNavBar={false} />
-          <Scene key="welcome" component={Welcome} hideNavBar />
-         
-
-          <Scene key="agreement" component={Agreement} title="用户协议和隐私政策" navBarButtonColor="black" />
-        </Scene>
-        <Stack key="root">
-          <Tabs key="tabbar" activeTintColor='#D80B2A' hideNavBar>
-            <Scene key="me" component={Me} title="我的" icon={TabIconth} />
-            <Scene key="index" component={Index} title="首页" icon={TabIconth} />
+      <Stack key="root" hideNavBar>
+          <Tabs key="tabbar" activeTintColor='#FFCB00' hideNavBar>
+          <Scene key="index" component={Index} title="首页" icon={TabIconth}/>
+          <Scene key="me" component={Me} title="我的" icon={TabIconth} navTransparent='true' navBarButtonColor='rgba(0,0,0,0)'/>
           </Tabs>
           <Scene key="aboutMe" component={AboutMe} title="关于我们" navBarButtonColor="black" />
-        </Stack>
+      </Stack>
 
-
+      <Scene key="login" component={Login} title="登录" navBarButtonColor="black" hideNavBar={false} />
+          <Scene key="welcome" component={Welcome} hideNavBar />
+          <Scene key="agreement" component={Agreement} title="用户协议和隐私政策" navBarButtonColor="black" />
+        </Scene>
       </Modal>
     </Router>
   );
