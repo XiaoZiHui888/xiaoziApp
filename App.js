@@ -14,7 +14,6 @@ import Login from './src/pages/login/index';
 import Welcome from './src/pages/welcome/index';
 import Me from './src/pages/me/index';
 import AboutMe from './src/pages/aboutMe/index';
-import Search from './src/pages/search/index';
 import Agreement from './src/pages/agreement/index';
 import { View, Image } from 'react-native';
 
@@ -49,9 +48,10 @@ const App = () => {
   return (
     <Router>
       <Modal key="root" hideNavBar>
-        <Scene>
+      <Scene>
+      <Scene key="login" component={Login} title="登录" navBarButtonColor="black" hideNavBar={false} />
           <Scene key="welcome" component={Welcome} hideNavBar />
-          <Scene key="login" component={Login} title="登录" navBarButtonColor="black" hideNavBar={false} />
+         
 
           <Scene key="agreement" component={Agreement} title="用户协议和隐私政策" navBarButtonColor="black" />
         </Scene>
@@ -59,11 +59,10 @@ const App = () => {
           <Tabs key="tabbar" activeTintColor='#D80B2A' hideNavBar>
             <Scene key="me" component={Me} title="我的" icon={TabIconth} />
             <Scene key="index" component={Index} title="首页" icon={TabIconth} />
-
           </Tabs>
           <Scene key="aboutMe" component={AboutMe} title="关于我们" navBarButtonColor="black" />
-          <Scene key="search" component={Search} title="搜索" navBarButtonColor="black" />
         </Stack>
+
 
       </Modal>
     </Router>

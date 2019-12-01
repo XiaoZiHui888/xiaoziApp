@@ -1,47 +1,110 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, Image, Button, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, Image, Button, TouchableOpacity,TextInput } from 'react-native';
 import { sw } from '../../utils/screenAdapter'
 import { Actions } from 'react-native-router-flux';
+import { catchClause } from '@babel/types';
+import { white } from 'ansi-colors';
+import regex from '../../utils/regex';
+
+// 异常提示
+const showError = (error)=>{
+    return (
+        <View style={styles.error}>
+        <Image style={styles.errorIcon} source={require('../../assets/error_icon.png')}></Image>
+    <Text style={styles.errorMsg}>{error}</Text>
+     </View>
+    )
+}
 
 
-export default class Home extends Component {
+export default class Login extends Component {
+    state = {
+        phone:'',
+        code:'',
+        duration:60,
+        timer:null,
+        error:''
+    }
     render() {
         return (
             <View style={styles.page}>
-                <Image style={styles.icon} source={require('../../assets/logo.png')}></Image>
-                <Text style={styles.title}>钱多赚一点,生活好一点</Text>
-                <TouchableOpacity onPress={this._onPressButton} style={styles.btn1}>
-                    <Image
-                        style={styles.btnIcon1}
-                        source={require('../../assets/wx_icon.png')}
-                    />
-                    <Text style={styles.btnTitle}>微信登录</Text>
-
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this._onPressButton} style={styles.btn2}>
-                    <Image
-                        style={styles.btnIcon2}
-                        source={require('../../assets/phone_icon.png')}
-                    />
-                    <Text style={styles.btnTitle}>微信登录</Text>
-                </TouchableOpacity>
-                <View style={styles.agressment}>
-                    <Text style={styles.text1}>登录即表示已经阅读并同意</Text>
-                    <TouchableOpacity onPress={this.onPushToAgressment}>
-                        <Text style={styles.text2}>《用户协议》</Text>
-                    </TouchableOpacity>
-
-                    <Text style={styles.text1}>和</Text>
-                    <TouchableOpacity onPress={this.onPushToAgressment}>
-                        <Text style={styles.text2}>《隐私说明》</Text>
-                    </TouchableOpacity>
-
+                {/* 手机号码 */}
+                <View style={styles.cell}>
+                    <Image style={styles.cellIcon} source={require("../../assets/phone.png")}></Image>
+                    <TextInput ref="inputPhone" style={styles.cellTitle} placeholder="请输入手机号码" maxLength={11} onChangeText={this.onInputPhone.bind(this)} textContentType="telephoneNumber" keyboardType="phone-pad" clearButtonMode={true} onFocus={this.onResetError.bind(this)}/>
                 </View>
+                {/* 验证码 */}
+                <View style={styles.cell}>
+                    <Image style={styles.cellIcon} source={require("../../assets/phone.png")}></Image>
+                    <TextInput ref="inputCode" style={styles.cellTitle} placeholder="请输入验证码"  maxLength={6} onChangeText={this.onInputCode.bind(this)} keyboardType="phone-pad" onFocus={this.onResetError.bind(this)}/>
+                    <TouchableOpacity style={!this.state.timer?styles.cellBtn:styles.cellBtnDisabled} onPress={this.onCountDown.bind(this)} disabled={!!this.state.timer}>
+        <Text style={styles.cellBtnTitle}>{!this.state.timer?'获取验证码':this.state.duration + 's后重试'}</Text>
+                    </TouchableOpacity>
+                   
+                </View>
+                {/* 异常提示 */}
+                {
+                  this.state.error?showError(this.state.error):<></>
+                }
+                <TouchableOpacity style={styles.btnSubmit} onPress={this.onPushToIndex.bind(this)}>
+                      <Text style={styles.btnSubmitText}>快速登录</Text>
+                </TouchableOpacity>
+                 
+                
             </View>
         );
     }
-    _onPressButton() {
+    onPushToIndex() {
+        this.refs.inputPhone.blur()
+        this.refs.inputCode.blur()
+        if(!regex.testPhone(this.state.phone)){
+            this.setState({
+                error:'请输入正确的手机号码'
+            })
+            return
+        }
+        if(!this.state.code){
+            this.setState({
+                error:'请输入验证码'
+            })
+            return
+        }
         Actions.replace("tabbar")
+    }
+    // 输入手机
+    onInputPhone(text){
+       this.state.phone = text
+    }
+    // 输入code
+    onInputCode(text){
+       this.state.code = text
+    }
+    // 开始倒计时
+    onCountDown(text){
+       if(!this.state.timer){
+           let timer = setInterval(() => {
+               let duration = --this.state.duration
+               this.setState({
+                   duration: duration
+               })
+               if(this.state.duration<=0){
+                   clearInterval(this.timer)
+                   this.setState({
+                       timer:null,
+                       duration:60
+                   })
+               }
+               console.log(this.state)
+           }, 1000);
+           this.setState({
+               timer:timer
+           })
+       }
+    }
+    onResetError(){
+        this.setState({
+            error:''
+        })
     }
     // 跳转到用户协议
     onPushToAgressment() {
@@ -53,68 +116,80 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
-        backgroundColor: 'white',
+        backgroundColor: '#f7f7f7',
         flex: 1
     },
-    icon: {
-        width: sw(80),
-        height: sw(80),
-        marginTop: sw(100),
+    cell:{
+        marginTop:sw(20),
+        width:sw(343),
+        height:sw(50),
+        borderRadius:4,
+        backgroundColor:'white',
+        flexDirection:'row',
+        alignItems:'center',
+        display:'flex',
+        overflow:"hidden"
     },
-    title: {
-        marginTop: sw(21),
-        fontSize: 14,
-        color: '#5E5E5E'
+    cellIcon:{
+       marginLeft:sw(20),
+       width:sw(30),
+       height:sw(30)
     },
-    btn1: {
-        marginTop: sw(76),
-        width: sw(250),
-        height: sw(50),
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: '#18A50C',
-        flexDirection: 'row',
-        borderRadius: sw(25)
+    cellTitle:{
+        marginLeft:sw(20),
+        flex:1,
+        fontSize:sw(14)
     },
-    btn2: {
-        marginTop: sw(15),
-        width: sw(250),
-        height: sw(50),
-        display: "flex",
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: '#D80B2A',
-        borderRadius: sw(25)
+    cellBtn:{
+        width:sw(100),
+        height:sw(50),
+        color:'white',
+        backgroundColor:'#D80B2A',
+        alignItems:'center',
+        justifyContent:"center"
     },
-    btnTitle: {
-        marginRight: 6.5,
-        color: 'white',
-        fontSize: sw(15),
-        marginLeft: sw(7.5)
+    cellBtnDisabled:{
+        width:sw(100),
+        height:sw(50),
+        color:'white',
+        backgroundColor:'#aaa',
+        alignItems:'center',
+        justifyContent:"center"
     },
-    btnIcon1: {
-        width: sw(20),
-        height: sw(17)
-
+    cellBtnTitle:{
+       fontSize:sw(14),
+       color:'white'
     },
-    btnIcon2: {
-        width: sw(17),
-        height: sw(20)
+    error:{
+     marginTop:sw(15),   
+     flexDirection:'row',
+     alignItems:'center',
+     width:sw(375)
     },
-    agressment: {
-        marginTop: sw(15),
-        flexDirection: 'row',
-        alignItems: "center"
+    errorIcon:{
+        width:sw(15),
+        height:sw(15),
+        marginLeft:sw(16)
     },
-    text1: {
-        fontSize: sw(12),
-        color: '#999'
+    errorMsg:{
+       marginLeft:sw(5),
+       fontSize:sw(14),
+       color:'#DB2743'
     },
-    text2: {
-        fontSize: sw(12),
-        color: '#D80B2A'
+    btnSubmit:{
+        marginTop:sw(30),
+        width:sw(343),
+        height:50,
+        borderRadius:sw(25),
+        backgroundColor:'#D80B2A',
+        color:'white',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    btnSubmitText:{
+        color:'white',
+        fontSize:sw(18)
     }
 
 });
