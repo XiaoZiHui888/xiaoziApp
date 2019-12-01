@@ -16,7 +16,6 @@ import showDaysPacker from '../../utils/dayPacker';
 import {Toast} from 'native-base';
 import { sw } from '../../utils/screenAdapter';
 import { Actions } from 'react-native-router-flux';
-import regix from '../../utils/regex'
 
 const inputNameCell = (cardBank,event)=>{
   return (
@@ -64,15 +63,15 @@ export default class CreditCardAdd extends Component {
       <ScrollView contentContainerStyle={styles.page}>
         <View style={styles.list}>
           {inputNameCell(this.state.cardBank,this.onInputName.bind(this))}
-          {inputCell('有效期','请输入有效期（如：0923)',require("../../assets/question.png"),this.onInputExpiredDate.bind(this))}
-          {inputCell('安全码','请输入卡片背面后3位数字',require("../../assets/question.png"),this.onInputCVV2.bind(this))}
+          {inputCell('有效期','请输入有效期（如：0923)',require("../../assets/question.png"))}
+          {inputCell('安全码','请输入卡片背面后3位数字',require("../../assets/question.png"))}
           {selectCell('账单日','请选择',this.state.statementDate,require("../../assets/arrow_right.png"),this.onInputStatementDate.bind(this))}
           {selectCell('还款日','请选择',this.state.repaymentDate,require("../../assets/arrow_right.png"),this.onInputRepaymentDate.bind(this))}
           {inputCell('手机号码','请输入银行预留手机号码',require("../../assets/arrow_right.png"),this.onInputPhoneNo.bind(this))}
           
         <View style={styles.cell}>
           <Text style={styles.cellTitle}>验证码</Text>
-          <TextInput style={styles.cellValue} placeholder="请输入验证码" onChangeText={this.onInputCode.bind(this)}></TextInput>
+          <TextInput style={styles.cellValue} placeholder="请输入验证码"></TextInput>
           <TouchableOpacity style={styles.cellBtn} onPress={this.onSendVerifyCode.bind(this)} disabled={!!this.state.timer}>
     <Text style={!this.state.timer?styles.cellBtnTitle:styles.cellBtnTitleInvalid}>{this.state.timer?`${this.state.duration}s`:'发送验证码'}</Text>
             </TouchableOpacity>
@@ -166,14 +165,6 @@ export default class CreditCardAdd extends Component {
       })
       return
     }
-    if(!regix.testPhone(this.state.phoneNo)){
-      Toast.show({
-        text: '手机号码格式不正确',
-        position:'top',
-        type:'danger'
-      })
-      return
-    }
     if(!this.state.code){
       Toast.show({
         text: '请输入验证码',
@@ -183,7 +174,7 @@ export default class CreditCardAdd extends Component {
       return
     }
 
-    Actions.replace('cardBindSuccess')
+    Actions.replace('cardSign')
 
     
 
