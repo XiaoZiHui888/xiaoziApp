@@ -1,11 +1,9 @@
 import Picker from 'react-native-picker';
 
-export default function showDaysPacker(title='请选择日期',defalut=1){
+export default function showBankPacker(title='请选择开户银行',defalut='中国银行'){
   return new Promise((resolve,reject)=>{
-    let data = [];
-    for(var i=1;i<30;i++){
-        data.push(i);
-    }
+    let data = ['中国银行','中国建设银行'];
+   
     Picker.init({
         pickerData: data,
         selectedValue: [defalut],

@@ -63,7 +63,8 @@ const App = () => {
         <Modal key="root" hideNavBar>
 
         <Stack key="root" hideNavBar>
-        
+            <Scene key="repay" component={Repay} title="还信用卡"  navBarButtonColor="black" hideNavBar={false}/>
+            <Scene key="withdraw" component={Withdraw} title="取备用金"  navBarButtonColor="black" hideNavBar={false}/>
             <Scene key="cardDetail" component={CardDetail} title="银行卡信息" navBarButtonColor="black" hideNavBar={false} />
             <Scene key="depositCardAdd" component={DepositCardAdd} title="添加借记卡信息" navBarButtonColor="black" hideNavBar={false} />
             <Scene key="myCards" component={MyCards} title="银行卡管理" navBarButtonColor="black" hideNavBar={false} />
@@ -75,9 +76,6 @@ const App = () => {
               <Scene key="me" component={Me} title="我的" icon={TabIconth} navTransparent='true' navBarButtonColor='rgba(0,0,0,0)' />
             </Tabs>
             <Scene key="aboutMe" component={AboutMe} title="关于我们" navBarButtonColor="black" hideNavBar={false} />
-            <Scene key="repay" component={Repay} title="还信用卡"  navBarButtonColor="black" hideNavBar={false}/>
-            <Scene key="withdraw" component={Withdraw} title="取备用金"  navBarButtonColor="black" hideNavBar={false}/>
-            
           </Stack>
 
           <Scene>
