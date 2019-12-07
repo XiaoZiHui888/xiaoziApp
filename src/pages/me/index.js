@@ -14,85 +14,98 @@ import { sw } from '../../utils/screenAdapter';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const header = () => {
-  return (
-    <ImageBackground style={styles.header} source={require("../../assets/me_head_bg.png")}>
-      <View style={styles.userInfo}>
-        <Image style={styles.userInfoImage}></Image>
-        <View style={styles.userInfoRight}>
-          <View style={styles.userInfoTop}>
-            <Text style={styles.userInfoName}>用户姓名</Text>
-            <Image style={styles.userInfoRank}></Image>
-          </View>
-        </View>
-      </View>
-    </ImageBackground>
-  )
-}
-const upgrade = () => {
-  return (
-    <View style={styles.upgrade}>
-      <Image style={styles.upgradeIcon} source={require('../../assets/vip_up.png')}></Image>
-      <View style={styles.upgradeMid}>
-      <Text style={styles.upgradeTitle1}>升级VIP会员 享特权</Text>
-      <Text style={styles.upgradeTitle2}>信用卡取备用金/智能还款率全国最低</Text>
-      </View>
-      <TouchableOpacity style={styles.upgradeBtn}>
-        <Text style={styles.upgradeBtnTitle}>去看看</Text>
-      </TouchableOpacity>
-    </View>
-  )
-}
-const income = () => {
-  return (
-    <View style={styles.income}>
-      <TouchableOpacity style={styles.incomeItem}>
-        <View style={styles.icomeItemRight}>
-          <Text style={styles.incomeItemTitle1}>分享赚钱</Text>
-          <Text style={styles.incomeItemTitle2}>他刷卡你赚钱</Text>
-        </View>
-        <Image style={styles.incomeItemImg} source={require("../../assets/me_share_img.png")}></Image>
-      </TouchableOpacity>
-      <View style={styles.incomeLine}></View>
 
-      <TouchableOpacity style={styles.incomeItem}>
-        <View style={styles.icomeItemRight}>
-          <Text style={styles.incomeItemTitle1}>分享赚钱</Text>
-          <Text style={styles.incomeItemTitle2}>他刷卡你赚钱</Text>
-        </View>
-        <Image style={styles.incomeItemImg} source={require("../../assets/me_balance_img.png")}></Image>
-      </TouchableOpacity>
-    </View>
-  )
-}
-
-const cell = (name) => {
-  return (
-    <TouchableOpacity style={styles.cell}>
-      <Text style={styles.cellTitle3}>{name}</Text>
-      <Image style={styles.cellImage} source={require("../../assets/arrow_right.png")} />
-      <View style={styles.cellLine}></View>
-    </TouchableOpacity>
-  )
-}
 
 export default class Me extends Component {
+
+  // myCards
+
+  header(){
+    return (
+      <ImageBackground style={styles.header} source={require("../../assets/me_head_bg.png")}>
+        <View style={styles.userInfo}>
+          <Image style={styles.userInfoImage}></Image>
+          <View style={styles.userInfoRight}>
+            <View style={styles.userInfoTop}>
+              <Text style={styles.userInfoName}>用户姓名</Text>
+              <Image style={styles.userInfoRank}></Image>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    )
+  }
+  upgrade (){
+    return (
+      <View style={styles.upgrade}>
+        <Image style={styles.upgradeIcon} source={require('../../assets/vip_up.png')}></Image>
+        <View style={styles.upgradeMid}>
+        <Text style={styles.upgradeTitle1}>升级VIP会员 享特权</Text>
+        <Text style={styles.upgradeTitle2}>信用卡取备用金/智能还款率全国最低</Text>
+        </View>
+        <TouchableOpacity style={styles.upgradeBtn}>
+          <Text style={styles.upgradeBtnTitle}>去看看</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+  income (){
+    return (
+      <View style={styles.income}>
+        <TouchableOpacity style={styles.incomeItem}>
+          <View style={styles.icomeItemRight}>
+            <Text style={styles.incomeItemTitle1}>分享赚钱</Text>
+            <Text style={styles.incomeItemTitle2}>他刷卡你赚钱</Text>
+          </View>
+          <Image style={styles.incomeItemImg} source={require("../../assets/me_share_img.png")}></Image>
+        </TouchableOpacity>
+        <View style={styles.incomeLine}></View>
+  
+        <TouchableOpacity style={styles.incomeItem}>
+          <View style={styles.icomeItemRight}>
+            <Text style={styles.incomeItemTitle1}>分享赚钱</Text>
+            <Text style={styles.incomeItemTitle2}>他刷卡你赚钱</Text>
+          </View>
+          <Image style={styles.incomeItemImg} source={require("../../assets/me_balance_img.png")}></Image>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+  
+  cell(name,event){
+    return (
+      <TouchableOpacity style={styles.cell} onPress={event}>
+        <Text style={styles.cellTitle3}>{name}</Text>
+        <Image style={styles.cellImage} source={require("../../assets/arrow_right.png")} />
+        <View style={styles.cellLine}></View>
+      </TouchableOpacity>
+    )
+  }
 
   render() {
     return (
       <ScrollView contentContainerStyle={styles.page}>
-        {header()}
-        {upgrade()}
-        {income()}
+        {this.header()}
+        {this.upgrade()}
+        {this.income()}
         <View style={styles.cellList}> 
-        {cell('我的银行卡')}
-        {cell('常见问题')}
-        {cell('设置')}
+        {cell('我的银行卡',this.onPushToMyCards.bind(this))}
+        {cell('常见问题',this.onPushToQuestions.bind(this))}
+        {cell('设置',this.onPushToSetting.bind(this))}
         </View>
-
       </ScrollView>
     );
   }
+  onPushToMyCards(){
+    Actions.push("myCards")
+  }
+  onPushToQuestions(){
+
+  }
+  onPushToSetting(){
+
+  }
+
 }
 
 let styles = StyleSheet.create({

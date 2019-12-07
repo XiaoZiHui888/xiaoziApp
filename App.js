@@ -20,12 +20,16 @@ import CreditCardInput from './src/pages/creditCardInput/index';
 import CreditCardAdd from './src/pages/creditCardAdd/index';
 import CardBindSuccess from './src/pages/cardBindSuccess/index';
 import MyCards from './src/pages/myCards/index';
+import DepositCardAdd from './src/pages/depositCardAdd/index';
+import CardDetail from './src/pages/cardDetail/index';
+import Repay from './src/pages/repay/index';
+import Withdraw from './src/pages/withdraw/index';
 
 import { Root } from 'native-base';
 
 
 
-const TabIconth = ({ focused, title}) => {
+const TabIconth = ({ focused, title }) => {
   let list = {
     '首页': {
       icon: require('./src/assets/home.png'),
@@ -40,12 +44,12 @@ const TabIconth = ({ focused, title}) => {
   if (!focused) {
     return (
 
-      <Image style={{ width: 20, height: 20,resizeMode:'contain' }} source={item.icon} />
+      <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={item.icon} />
 
     );
   } else {
     return (
-      <Image style={{ width: 20, height: 20,resizeMode:'contain'}} source={item.activeIcon} />
+      <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={item.activeIcon} />
 
     );
 
@@ -55,33 +59,37 @@ const TabIconth = ({ focused, title}) => {
 const App = () => {
   return (
     <Root>
-    <Router>
-      <Modal key="root" hideNavBar>
+      <Router>
+        <Modal key="root" hideNavBar>
+
+        <Stack key="root" hideNavBar>
+        
+            <Scene key="cardDetail" component={CardDetail} title="银行卡信息" navBarButtonColor="black" hideNavBar={false} />
+            <Scene key="depositCardAdd" component={DepositCardAdd} title="添加借记卡信息" navBarButtonColor="black" hideNavBar={false} />
+            <Scene key="myCards" component={MyCards} title="银行卡管理" navBarButtonColor="black" hideNavBar={false} />
+            <Scene key="cardBindSuccess" component={CardBindSuccess} title="绑卡签约" navBarButtonColor="black" hideNavBar={false} />
+            <Scene key="creditCardAdd" component={CreditCardAdd} title="绑定信用卡" navBarButtonColor="black" hideNavBar={false} />
+            <Scene key="creditCardInput" component={CreditCardInput} title="绑定信用卡" navBarButtonColor="black" hideNavBar={false} />
+            <Tabs key="tabbar" activeTintColor='#FFCB00' hideNavBar>
+              <Scene key="index" component={Index} title="首页" icon={TabIconth} />
+              <Scene key="me" component={Me} title="我的" icon={TabIconth} navTransparent='true' navBarButtonColor='rgba(0,0,0,0)' />
+            </Tabs>
+            <Scene key="aboutMe" component={AboutMe} title="关于我们" navBarButtonColor="black" hideNavBar={false} />
+            <Scene key="repay" component={Repay} title="还信用卡"  navBarButtonColor="black" hideNavBar={false}/>
+            <Scene key="withdraw" component={Withdraw} title="取备用金"  navBarButtonColor="black" hideNavBar={false}/>
+            
+          </Stack>
+
+          <Scene>
+            <Scene key="login" component={Login} title="登录" navBarButtonColor="black" hideNavBar={false} />
+            <Scene key="welcome" component={Welcome} hideNavBar />
+            <Scene key="agreement" component={Agreement} title="用户协议和隐私政策" navBarButtonColor="black" />
+          </Scene>
 
 
-      <Stack key="root" hideNavBar>
-          <Scene key="myCards" component={MyCards} title="银行卡管理" navBarButtonColor="black" hideNavBar={false}/>
-          <Scene key="cardBindSuccess" component={CardBindSuccess} title="绑卡签约" navBarButtonColor="black" hideNavBar={false}/>
-          <Scene key="creditCardAdd" component={CreditCardAdd} title="绑定信用卡" navBarButtonColor="black" hideNavBar={false}/>
-          <Scene key="creditCardInput" component={CreditCardInput} title="绑定信用卡" navBarButtonColor="black" hideNavBar={false}/>
-          <Tabs key="tabbar" activeTintColor='#FFCB00' hideNavBar>
-          <Scene key="index" component={Index} title="首页" icon={TabIconth}/>
-          <Scene key="me" component={Me} title="我的" icon={TabIconth} navTransparent='true' navBarButtonColor='rgba(0,0,0,0)'/>
-          </Tabs>
-          <Scene key="aboutMe" component={AboutMe} title="关于我们" navBarButtonColor="black" hideNavBar={false}/>
-      </Stack>
 
- 
-
-      <Scene>
-      <Scene key="login" component={Login} title="登录" navBarButtonColor="black" hideNavBar={false} />
-          <Scene key="welcome" component={Welcome} hideNavBar />
-          <Scene key="agreement" component={Agreement} title="用户协议和隐私政策" navBarButtonColor="black" />
-      </Scene>
-
-
-      </Modal>
-    </Router>
+        </Modal>
+      </Router>
     </Root>
   );
 };

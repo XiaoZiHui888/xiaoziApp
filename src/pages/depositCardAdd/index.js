@@ -17,57 +17,56 @@ import {Toast} from 'native-base';
 import { sw } from '../../utils/screenAdapter';
 import { Actions } from 'react-native-router-flux';
 
-const inputNameCell = (cardBank,event)=>{
-  return (
-    <View style={styles.cell}>
-      <Text style={styles.cellTitle}>银行名称</Text>
-      <TextInput style={styles.cellInput} placeholder='请输入银行名称' defaultValue={cardBank} onChangeText={event}></TextInput>
-    </View>
-  )
-}
-const inputCell = (title,placeholder,icon,event)=>{
-  return (
-    <View style={styles.cell}>
-<Text style={styles.cellTitle}>{title}</Text>
-      <TextInput style={styles.cellInput} placeholder={placeholder} onChangeText={event} textContentType="creditCardNumber"></TextInput>
-      <Image style={styles.cellIcon} source={icon}></Image>
-    </View>
-  )
-}
-const selectCell = (title,placeholder,value,icon,event)=>{
-  return (
-    <TouchableOpacity style={styles.cell} onPress={event}>
-      <Text style={styles.cellTitle}>{title}</Text>
-      <Text style={value?styles.cellValue:styles.cellPlaceHolder}>{value?`每月${value}日`:placeholder}</Text>
-      <Image style={styles.cellIcon} source={icon}></Image>
-    </TouchableOpacity>
-  )
-}
+
 
 export default class CreditCardAdd extends Component {
   state = {
-    name:'',
-    cardNo: this.props.cardNum,
-    cardBank:"中国银行",
-    phoneNo: "",
-    expiredDate: "",
-    CVV2: "",
-    statementDate:"",
-    repaymentDate:"",
+    custName: "杨磊",
+    mobile: "18012345685",
+    certNo: "320682198902088008",
+    bindType: "02",
+    cardNo: "6217880800011874583",
+    phoneNo: "18018511899",
+    address: "上海",
     code:'',
     timer:null,
     duration:60
+  }
+  inputNameCell(cardBank,event){
+    return (
+      <View style={styles.cell}>
+        <Text style={styles.cellTitle}>姓名</Text>
+        <TextInput style={styles.cellInput} placeholder='请输入您的真实姓名(必填)'  onChangeText={this.onInputName.bind(this)}></TextInput>
+      </View>
+    )
+  }
+  inputCell(title,placeholder,icon,event){
+    return (
+      <View style={styles.cell}>
+  <Text style={styles.cellTitle}>{title}</Text>
+        <TextInput style={styles.cellInput} placeholder={placeholder} onChangeText={event} textContentType="creditCardNumber"></TextInput>
+        <Image style={styles.cellIcon} source={icon}></Image>
+      </View>
+    )
+  }
+  selectCell(title,placeholder,value,icon,event){
+    return (
+      <TouchableOpacity style={styles.cell} onPress={event}>
+        <Text style={styles.cellTitle}>{title}</Text>
+        <Text style={value?styles.cellValue:styles.cellPlaceHolder}>{value?`每月${value}日`:placeholder}</Text>
+        <Image style={styles.cellIcon} source={icon}></Image>
+      </TouchableOpacity>
+    )
   }
   render() {
     return (
       <ScrollView contentContainerStyle={styles.page}>
         <View style={styles.list}>
-          {inputNameCell(this.state.cardBank,this.onInputName.bind(this))}
-          {inputCell('有效期','请输入有效期（如：0923)',require("../../assets/question.png"))}
-          {inputCell('安全码','请输入卡片背面后3位数字',require("../../assets/question.png"))}
-          {selectCell('账单日','请选择',this.state.statementDate,require("../../assets/arrow_right.png"),this.onInputStatementDate.bind(this))}
-          {selectCell('还款日','请选择',this.state.repaymentDate,require("../../assets/arrow_right.png"),this.onInputRepaymentDate.bind(this))}
-          {inputCell('手机号码','请输入银行预留手机号码',require("../../assets/arrow_right.png"),this.onInputPhoneNo.bind(this))}
+          {this.inputNameCell()}
+          {this.inputCell('银行卡号','请输入借记卡卡号(必填)',require("../../assets/question.png"),this.onInputCardNum.bind(this))}
+          {this.selectCell('银行名称','请选择',this.state.statementDate,require("../../assets/arrow_right.png"),this.onInputStatementDate.bind(this))}
+          {this.selectCell('所在地区','请选择',this.state.repaymentDate,require("../../assets/arrow_right.png"),this.onInputRepaymentDate.bind(this))}
+          {this.inputCell('手机号码','请输入银行预留手机号码',require("../../assets/arrow_right.png"),this.onInputPhoneNo.bind(this))}
           
         <View style={styles.cell}>
           <Text style={styles.cellTitle}>验证码</Text>
@@ -78,17 +77,19 @@ export default class CreditCardAdd extends Component {
         </View>
 
           <TouchableOpacity style={styles.nextBtn} onPress={this.onBindCreditCardAdd.bind(this)}>
-            <Text style={styles.nextBtnTitle}>下一步</Text>
+            <Text style={styles.nextBtnTitle}>提交</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
     );
   }
+  // 用户姓名
   onInputName(text){
-    this.state.name = text
+    this.state.custName = text
   }
+  // 银行卡号
   onInputCardNum(text){
-   this.state.cardNum = text
+   this.state.cardNo = text
   }
   onInputExpiredDate(text){
     this.state.expiredDate = text
