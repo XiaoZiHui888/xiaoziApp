@@ -24,6 +24,7 @@ import DepositCardAdd from './src/pages/depositCardAdd/index';
 import CardDetail from './src/pages/cardDetail/index';
 import Repay from './src/pages/repay/index';
 import Withdraw from './src/pages/withdraw/index';
+import ChannelSelect from './src/pages/channelSelect/index';
 
 import { Root } from 'native-base';
 
@@ -63,6 +64,10 @@ const App = () => {
         <Modal key="root" hideNavBar>
 
         <Stack key="root" hideNavBar>
+        <Tabs key="tabbar" activeTintColor='#FFCB00' hideNavBar>
+              <Scene key="index" component={Index} title="首页" icon={TabIconth} />
+              <Scene key="me" component={Me} title="我的" icon={TabIconth} navTransparent='true' navBarButtonColor='rgba(0,0,0,0)' />
+            </Tabs>
             <Scene key="repay" component={Repay} title="还信用卡"  navBarButtonColor="black" hideNavBar={false}/>
             <Scene key="withdraw" component={Withdraw} title="取备用金"  navBarButtonColor="black" hideNavBar={false}/>
             <Scene key="cardDetail" component={CardDetail} title="银行卡信息" navBarButtonColor="black" hideNavBar={false} />
@@ -71,10 +76,8 @@ const App = () => {
             <Scene key="cardBindSuccess" component={CardBindSuccess} title="绑卡签约" navBarButtonColor="black" hideNavBar={false} />
             <Scene key="creditCardAdd" component={CreditCardAdd} title="绑定信用卡" navBarButtonColor="black" hideNavBar={false} />
             <Scene key="creditCardInput" component={CreditCardInput} title="绑定信用卡" navBarButtonColor="black" hideNavBar={false} />
-            <Tabs key="tabbar" activeTintColor='#FFCB00' hideNavBar>
-              <Scene key="index" component={Index} title="首页" icon={TabIconth} />
-              <Scene key="me" component={Me} title="我的" icon={TabIconth} navTransparent='true' navBarButtonColor='rgba(0,0,0,0)' />
-            </Tabs>
+            <Scene key="channelSelect" component={ChannelSelect} title="选择通道"  navBarButtonColor="black" hideNavBar={false}/>
+
             <Scene key="aboutMe" component={AboutMe} title="关于我们" navBarButtonColor="black" hideNavBar={false} />
           </Stack>
 
@@ -83,9 +86,6 @@ const App = () => {
             <Scene key="welcome" component={Welcome} hideNavBar />
             <Scene key="agreement" component={Agreement} title="用户协议和隐私政策" navBarButtonColor="black" />
           </Scene>
-
-
-
         </Modal>
       </Router>
     </Root>

@@ -95,7 +95,7 @@ export default class Home extends Component {
                 {/* 银行卡列表 */}
                 {cardList(this.state.list,this)}
                 {/* 添加按钮 */}
-                <TouchableOpacity style={styles.addCardBtn}>
+                <TouchableOpacity style={styles.addCardBtn} onPress={this.onPushToAddCard.bind(this)}>
                     <Text style={styles.addCardBtnTitle}>+添加一张银行卡</Text>
                 </TouchableOpacity>
             </ScrollView >
@@ -106,6 +106,9 @@ export default class Home extends Component {
     }
     onPushToRepay(){
       Actions.push('repay')
+    }
+    onPushToAddCard(){
+        
     }
 }
 
